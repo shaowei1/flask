@@ -28,13 +28,49 @@ from flask import Flask
 # url 匹配首先匹配的路径，其次匹配http请求方法
 
 app = Flask(__name__)
+'''
+def __init__(self, import_name, static_path=None, static_url_path=None,
+                 static_folder='static', template_folder='templates',
+                 instance_path=None, instance_relative_config=False,
+                 root_path=None):
+                 
+import_name
+# Flask 程序所在的包(module), __name__
+# 其可以决定Flask_path在访问静态文件时查找的路径
+static_path
+# 静态文件访问路径(no recommend use, replace by static_url_path)
+static_url_path
+# 静态文件访问路径，可以不传，默认为：/ + static_folder
+template_folder
+模板文件存储的文件夹，可以不传，默认为 templates
+'''
 
 
+# default of methods contain GET, OPTIONS, HEAD
 @app.route('/', methods=['POST'])
 def hello2019():
     a = 1
     b = 2
     return a, b
+
+
+'''
+
+def route(self, rule, **options):
+    """A decorator that is used to register a view function for a
+    given URL rule.  This does the same thing as :meth:`add_url_rule`
+    but is intended for decorator usage::
+
+    def decorator(f):
+        endpoint = options.pop('endpoint', None)
+        self.add_url_rule(rule, endpoint, f, **options)
+        return f
+    return decorator
+
+self.add_url_rule(self.static_url_path + '/<path:filename>',
+                              endpoint='static',
+                              view_func=self.send_static_file)
+'''
 
 
 # @app.route('/')
