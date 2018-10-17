@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b211faa5-03fd-4b5d-b306-18822ae6b534" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/../day01/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../day01/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../day01/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../day01/hello.py" beforeDir="false" afterPath="$PROJECT_DIR$/../day01/hello.py" afterDir="false" />
-    </list>
+    <list default="true" id="b211faa5-03fd-4b5d-b306-18822ae6b534" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -61,9 +57,10 @@
     <session id="-2075599248">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="1" />
+          <entry key="project.closed" value="2" />
           <entry key="project.open.time.0" value="1" />
-          <entry key="project.opened" value="1" />
+          <entry key="project.open.time.14" value="1" />
+          <entry key="project.opened" value="2" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
@@ -99,7 +96,7 @@
     </session>
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
+    <leaf />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -362,7 +359,7 @@
   <component name="ToolWindowManager">
     <frame x="59" y="25" width="1307" height="743" extended-state="6" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.3219667" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.32751784" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -432,15 +429,10 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="136">
           <caret line="8" column="9" selection-start-line="8" selection-start-column="9" selection-end-line="8" selection-end-column="9" />
-          <folding>
-            <element signature="e#0#23#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/my_test1.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
+    <entry file="file://$PROJECT_DIR$/my_test1.py" />
     <entry file="file://$PROJECT_DIR$/demo4_json.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="457">
@@ -489,9 +481,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/my_test.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
+    <entry file="file://$PROJECT_DIR$/my_test.py" />
     <entry file="file:///usr/lib/python3/dist-packages/werkzeug/routing.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="17">
@@ -510,9 +500,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="102">
           <caret line="10" column="17" selection-start-line="10" selection-start-column="17" selection-end-line="10" selection-end-column="17" />
-          <folding>
-            <element signature="e#0#23#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -520,10 +507,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="428">
           <caret line="60" column="52" selection-start-line="60" selection-start-column="52" selection-end-line="60" selection-end-column="52" />
-          <folding>
-            <element signature="e#0#56#0" expanded="true" />
-            <marker date="1539689718951" expanded="true" signature="226:227" ph="..." />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -562,9 +545,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="215">
           <caret line="14" selection-start-line="14" selection-end-line="14" />
-          <folding>
-            <marker date="1539690910173" expanded="true" signature="386:391" ph="..." />
-          </folding>
         </state>
       </provider>
     </entry>
