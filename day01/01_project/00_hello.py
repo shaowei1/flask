@@ -7,7 +7,6 @@
 
 # 不适用装饰器，也能实现route mapping
 from flask import Flask
-
 # import name -> file name -> string.startswith
 # __name__, 确认程序所在位置, __name__ == __main__ == 'hello'==abcd==ab
 # not 'abc'

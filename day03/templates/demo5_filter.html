@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>filter</title>
+</head>
+<body>
+
+<p>列表默认输出：{{ [5,3,4,2,6] }}</p>
+<p>列表reverse输出：{{ [5,3,4,2,6] | reverse }}</p>
+{#<p>列表list_reverse输出：{{ [5,3,4,2,6] | list_reverse }}</p>#}
+<p>列表list_reverse2输出：{{ [5,3,4,2,6] | list_reverse2 }}</p>
+
+<hr>
+{# 列表处理： #}
+<p>列表默认输出：{{ [5,3,4,2,6] }}</p>
+<p>列表first输出：{{ [5,3,4,2,6] | first }}</p>
+<p>列表last输出：{{ [5,3,4,2,6] | last }}</p>
+<p>列表sum输出：{{ [5,3,4,2,6] | sum }}</p>
+<p>列表length输出：{{ [5,3,4,2,6] | length }}</p>
+<p>列表sort输出：{{ [5,3,4,2,6] | sort }}</p>
+
+
+<hr>
+{# 模板的转义:模板默认情况下，会开启转义，把数据中的超文本标签当成原始字符串输出，不按照html语义解析 #}
+{# 一般情况下，模板都会开启转义，处于数据安全角度考虑。 #}
+<p>默认输出：{{ '
+<h1>itcast python</h1>' }}</p>
+{# safe:关闭模板转义，让模板按照超文本语言的语义解析数据，在确保数据没有安全隐患的情况下 #}
+<p>safe输出：{{ '
+<h1>itcast python</h1>' | safe }}</p>
+
+<hr>
+{# 过滤器的基本使用 #}
+<p>默认输出：{{ 'ANiHc FO KnAb' }}</p>
+<p>使用字符串反转：{{ 'ANiHc FO KnAb' | reverse }}</p>
+<p>使用首字母大写：{{ 'ANiHc FO KnAb' | capitalize }}</p>
+{# 过滤器的链式调用，执行顺序，从前到后，依次执行 #}
+<p>先反转再首字母大写：{{ 'ANiHc FO KnAb' | reverse | capitalize }}</p>
+<p>先反转再首字母大写，再全大写：{{ 'ANiHc FO KnAb' | reverse | capitalize | upper }}</p>
+
+
+</body>
+</html>

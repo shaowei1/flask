@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{% for ls in my_list if ls.id != 5 %}
+{% if loop.index0 == 0 %}
+<li style="background-color: orange;">{{ ls.value }}</li>
+{% elif loop.index0 == 1 %}
+<li style="background-color: green;">{{ ls.value }}</li>
+{% elif loop.index0 == 2 %}
+<li style="background-color: red;">{{ ls.value }}</li>
+{% else %}
+<li style="background-color: purple">{{ ls.value }}</li>
+{% endif %}
+
+{% endfor %}
+
+
+</body>
+</html>

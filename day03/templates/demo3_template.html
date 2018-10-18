@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>template</title>
+</head>
+<body>
+<h1>template info</h1>
+{# 变量的使用 #}
+<p>{{ data }}</p>
+{# 字典的使用 #}
+<p>字典默认输出：{{ dict_data }}</p>
+<p>字典name：{{ dict_data['name'] }}</p>
+<p>字典age：{{ dict_data['age'] }}</p>
+{# 列表的使用 #}
+<p>列表默认输出：{{ list_data }}</p>
+<hr>
+{# 语句的使用 #}
+{% for ls in list_data %}
+    {% if ls % 7 == 0 %}
+        <p>{{ ls }}</p>
+    {% endif %}
+
+{% endfor %}
+
+
+
+
+
+
+</body>
+</html>
