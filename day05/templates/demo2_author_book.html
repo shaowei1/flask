@@ -1,0 +1,21 @@
+<h1>author&book</h1>
+
+{#　定义表单域　#}
+<form method="post">
+    {{ form.csrf_token }}
+    <p>author: {{ form.wtf_author }}</p>
+    <p> book : {{ form.wtf_book }}</p>
+    <p>{{ form.wtf_submit }}</p>
+</form>
+
+{#　展示数据　#}
+<ul>
+    <li>{% for author in authors %}</li>
+        <li>{{ author }}</li><a href="/delete_author/{{ author.id }}">删除</a>
+        <li>{% endfor %}</li>
+</ul>
+<ul>
+    <li>{% for book in books %}</li>
+        <li>{{ book }}</li><a href="/delete_book{{ book.id }}">删除</a>
+        <li>{% endfor %}</li>
+</ul>
