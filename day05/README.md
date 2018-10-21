@@ -75,3 +75,4 @@ database    CURD
 ### 注册蓝图对象给程序实例app
 ### 循环导包：交错导入。
 
+![](./templates/Flask框架第五天.png)
