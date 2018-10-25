@@ -1,0 +1,13 @@
+{% include 'demo1_macro.html' ignore missing %}
+
+
+<h1>demo2_include info</h1>
+
+
+{% block topBlock %}
+    {% block contentBlock %}
+        {% block bottomBlock %}
+            {{  }}
+        {% endblock %}
+    {% endblock %}
+{% endblock %}

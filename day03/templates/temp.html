@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>模板文件</title>
+</head>
+<body>
+<ul>
+    {% for item in my_list %}
+        {% if item.id % 2 == 0 %}
+            <li>{{ item.id }}---{{ item.value | li_reverse }}</li>
+        {% else %}
+            <li>{{ item.id }}---{{ item.value }}</li>
+        {% endif %}
+    {% endfor %}
+</ul>
+</body>
+</html>

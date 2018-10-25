@@ -1,3 +1,39 @@
+# Flask框架第一天
+## web程序运行的基本流程
+### 口述
+## flask框架的特点和核心
+### 简洁、轻量、扩展性强
+### werkzeug和Jinja2
+## 环境的配置和安装
+### 虚拟环境
+* mkvirtualenv 虚拟环境名称 创建python2的环境
+* mkvirtualenv -p python3 虚拟环境名称 创建python3 的虚拟环境
+* workon进入
+* deactivate 退出
+* rmvirtualenv 移除虚拟环境
+### 依赖文件
+* pip freeze > requirements.txt生成依赖文件
+* pip install -r requirements.txt安装依赖文件
+## 基本程序的实现
+### 实现helloworld
+### 1、__name__参数的作用，确认程序所在的位置，默认创建静态路由，方便静态文件的访问。
+### 2、route函数第一个参数表示url路径，必须以斜线开始，后面可以指定请求方法
+### 3、可以不使用装饰器实现路由映射，add_url_rule()第一个表示url路径、第二个表示端点(视图函数名的字符串)、第三个参数表示视图函数名
+### 4、视图函数不可以重名，请求的url路径可以重复。
+### 5、run方法可以传入host、port、debug
+### 6、debug表示调试模式，只有在开发模式开启，生产模式下一定不能开启。
+## 扩展阅读：百度上搜索：浏览器大战。
+![](./static/)
+    1. 描述web服务器和web框架的作用及其关系。
+    • 答：
+    • web服务器作用：
+    •  1）解析请求报文,调用框架程序处理请求。 
+    •  2）组织响应报文,返回内容给客户端。 
+    • web框架程序的作用：
+    •  1）路由分发(根据url找到对应的处理函数) 。
+    •  2）在处理函数中进行业务的处理。 
+  ![](./static/web.png)
+
 # web server 
 
 ## the basic flow of web program operation

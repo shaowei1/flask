@@ -23,6 +23,27 @@ database    CURD
 
 # Flask框架第五天
 ## 数据库
+### ORM
+* 对象关系映射
+* 好处：面向对象的形式实现数据库的增删改查，不需要面对sql语句，提高的是开发效率
+### 数据库的基本配置
+* SQLALCHEMY_DATABASE_URI
+    * 数据库的链接
+* SQLALCHEMY_TRACK_MODIFICATIONS
+    * 关闭动态修改警告信息
+* SQLALCHEMY_ECHO
+    * 展示sql语句
+### 模型类
+* 一对多
+    * 一方定义关系
+        * us = relationship("另外一方的类名"，backref=‘自定义’)
+        * 等号左边给一方使用，可以实现一对多的查询
+        * backref给多方使用，可以实现多对一的查询
+    * 多方定义外键
+### db.create_all()创建表
+### db.drop_all()删除表
+### db.session.add_all([])添加多条数据
+### db.session.commit()提交数据到数据库
 ### 增
 * 实例化模型类对象
 * db.session.add()/add_all([,])

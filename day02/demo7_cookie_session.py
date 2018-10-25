@@ -3,6 +3,7 @@ from flask import Flask, make_response, request, session
 app = Flask(__name__)
 
 # config是flask内置的配置对象，
+# 设置SECRET_KEY配置项，设置session信息时需要使用此配置项
 app.config['SECRET_KEY'] = '2018'
 # 根据密钥来生成session编码信息，加密后的字符串。
 # session=eyJpdGNhc3QiOiJweXRob24zMyJ9.DqXvnw.Dvb9iFcQYUAho6cBGvjgThZilxc;
@@ -39,45 +40,53 @@ Session依赖于Cookie
 
 
 # 设置cookie
-# @app.route('/')
-# def index():
-#     # 使用flask内置的响应对象来设置cookie
-#     response = make_response('set cookie')
-#     response.set_cookie('baidu', 'python', max_age=3600)  # 设置cookie,max_age表示有效期，单位秒
-#     '''Cookies
-#     Name    baidu
-#     Content python
-#     Domain  127.0.0.1.
-#     Path    /
-#     Send for And kind of connection
-#     Created Tuesday, October 16, 2018 at 9:02:02 PM
-#     Expires Tuesday, October 16, 2018 at 10:02:02 PM
-#     '''
-#     return response  # 返回响应
-#
-#
-# # 获取cookie
-# @app.route('/get')
-# def get_cookie():
-#     # request是flask内置的对象，用来获取客户端的请求信息
-#     # cookies是对象的属性
-#     baidu = request.cookies.get('baidu')
-#     return baidu
+@app.route('/')
+def index():
+    # 使用flask内置的响应对象来设置cookie
+    # 通过make_response创建响应对象，
+    response = make_response('set cookie')
+    # 调用响应对象的set_cookie方法设置cookie信息
+    response.set_cookie('baidu', 'python', max_age=3600)  # 设置cookie,max_age表示有效期，单位秒
+    response.set_cookie('taobao', 'ruby', max_age=3600)
+    '''Cookies
+    Name    baidu
+    Content python
+    Domain  127.0.0.1.
+    Path    /
+    Send for And kind of connection
+    Created Tuesday, October 16, 2018 at 9:02:02 PM
+    Expires Tuesday, October 16, 2018 at 10:02:02 PM
+    '''
+    return response  # 返回响应
+
+
+# 获取cookie
+@app.route('/get')
+def get_cookie():
+    # request是flask内置的对象，用来获取客户端的请求信息
+    # cookies是对象的属性
+    # 通过request对象的cookies属性获取客户端发送的cookie数据
+    baidu = request.cookies.get('baidu')
+    taobao = request.cookies.get('taobao')
+    return 'baidu: %s, taobao: %s' % (baidu, taobao)
 
 
 # session的设置
+# 验证session 使用postman + postman Interceptor
 @app.route('/session')
 def set_session():
     # session是flask内置的上下文对象，用来实现状态保持中的session
     session['baidu'] = 'python'
+    session['taobao'] = 'ruby'
     return 'set session success'
 
 
 # session的获取
-@app.route('/getss')
+@app.route('/getsession', methods=['POST', 'GET'])
 def get_session():
     baidu = session.get('baidu')
-    return baidu
+    taobao = session.get('taobao')
+    return 'baidu: %s, taobao: %s' % (baidu, taobao)
 
 
 if __name__ == '__main__':

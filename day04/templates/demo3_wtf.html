@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+
+<form action="http://www.baidu.com/s?wd='北京天气'">
+
+    
+</form>
+
+<form method="post">
+    {{ form.csrf_token }}
+    <p>用户名：{{ form.user }}</p>
+    <p>密码：{{ form.pswd }}</p>
+    <p>确认密码：{{ form.pswd2 }}</p>
+    <p>{{ form.submit }}</p>
+
+
+</form>
+
+
+</body>
+</html>

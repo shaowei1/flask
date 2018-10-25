@@ -1,3 +1,47 @@
+# base
+## 返回数据
+### 状态码
+* return 可以直接返回不符合http协议的状态码，用来实现前后端数据交互
+* abort函数只能跑出符合http协议的异常状态码，用来异常处理，一般可以自定义错误信息，提高用户体验
+### 重定向
+* redirect  接受的参数为具体的url地址，扩展性增强
+* url_for反向解析   接收的参数为视图函数名端点，扩展性强
+### json
+* 键值对形式的字符串，用来实现数据交互，传输数据
+* jsonify底层使用dumps实现，封装了Content-Type=application/json
+## 视图传参
+### 语法：<>使用flask内置的转换器，转换器是通过正则表达式实现
+### 限制数据类型，string/int/float/any/path/uuid
+### 自定义转换器，需要继承自BaseConverter
+## 状态保持
+### cookie
+* 键值对的字符串，存储在浏览器中，不安全
+* make_response来设置
+* request对象.cookies.get()获取
+### session
+* 键值对的字符串，基于cookie实现，存储在浏览器中的是key，value存储在服务器
+* 必须要设置密钥，根据密钥进行加密、编码
+* session[key] = value session是flask内置的对象
+* session.get(key)
+## 加载配置文件
+### 加载配置对象
+* app.config.from_object()
+### 加载配置文件
+* app.config.from_pyfile()
+### 加载环境变量
+* app.config.from_envvar()
+## 请求钩子
+### 请求前执行
+* before_first_request
+    * 只执行一次
+* before_request
+    * 每次都执行
+### 请求后执行
+* after_request
+    * 在没有web服务器内部异常的情况下才执行，必须接受响应，返回响应
+* teardown_request
+    * 无论有无异常都会执行，必须接受异常信息，可以不返回
+
 # 基本程序的扩展
 1. 返回状态码和abort函数
 
@@ -113,3 +157,49 @@ MapAdapter类<br>
 
 # 杂记
 类名() # 会执行类
+
+![](./static/Flask框架第二天.png)
+
+# 请说明钩子函数的作用及其调用顺序。
+    •  在web服务器调用框架程序处理每个请求的过程中，框架的处理有一定的顺序，在某个处理的节点上，允许我们根据实际的需要添加相应的函数，这些函数叫做钩子函数。
+    •  有了钩子函数，我们可以根据自己的需要在请求前后添加函数进行一些处理。
+        • 钩子函数
+
+    • 说明
+    • beforefirstrequest
+    • 在服务器启动之后，接收第一个请求时调用
+    • before_request
+    • 处理每个请求时，在视图函数调用之前调用
+    • after_reuqest
+    • 处理每个请求时，在视图函数调用之后并且视图未抛出异常时调用
+    • teardown_request
+    • 处理每个请求时，在视图函数调用之后调用，如果视图抛出异常，此函数的参数就是抛出的异常对象
+
+# 请说明为什么需要进行状态保持及状态保持的方案和特点。
+    •  http协议是一个无状态协议，即同一个用户进行操作时，服务器在处理某个请求时并不知道上一次请求的操作，但在开发过程中，实际需要去保存一些操作的信息以备之后进行使用，所以需要进行状态保持。
+    • 状态保持的方案:
+    •  1）cookie
+    •  2）session
+    • cookie特点：
+    •  1）由服务器生成，交给浏览器进行保存的一小段文本信息。
+    •  2）cookie以键和值的形式进行存储。
+    •  3）浏览器在访问服务器时，会自动将和被访问服务器相关的所有cookie信息发送给对应的服务器。
+    •  4）cookie存在过期时间，默认关闭浏览器过期。
+    • session特点：
+    •  1）session保存在服务器端。
+    •  2）session以键和值的形式进行存储。
+    •  3）session依赖于cookie，每个客户端对应的session信息的标识保存在cookie中。
+    •  4）session也是由过期时间的，Flask框架中session默认关闭浏览器过期。
+ 
+     3. 使用Flask实现cookie和session的设置及获取。
+    • 涉及知识点：
+    • 1）cookie的设置和获取
+	    设置cookie: 
+		通过make_response创建响应对象，调用响应对象的set_cookie方法设置cookie信息
+		获取cookie:
+		通过request对象的cookies属性获取客户端发送的cookie数据
+    • 2）session的设置和获取
+        设置session:
+            session['键'] = '值'
+        获取session:
+            session.get('键')

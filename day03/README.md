@@ -48,5 +48,42 @@ base 共有的内容
 
 ```
 
+# Flask框架第三天
+## 视图
+### 装饰器路由的实现原理
+* Rule
+    * 存储具体的url和视图函数名的映射关系，包含请求方法
+* Map
+    * 存储多个Rule类对象，Map是列表容器
+        * 为什么是列表容器？？？
+* MapAdapter
+    * 匹配具体的url和视图
+### 上下文对象
+* 请求上下文
+    * request
+        * 获取http请求的数据，常用属性：args/form/files/cookies/method/url/headers/
+    * session
+        * 实现状态保持，设置session信息
+* 应用上下文
+    * current_app
+        * 程序运行过程中存储的配置信息，用来记录项目日志
+    * g
+        * 用来临时存储数据，用来记录用户身份
+### flask_script扩展包
+* 实例化管理器对象,和程序实例关联，代替app调用run方法，必须使用脚本参数runserver
+* 在终端可以手动运行代码，传入主机和端口
+    * 可以配合flask_migrate扩展实现数据库的迁移
+## 模板
+### 概念
+* 包含响应文本的文件，不是特指html格式文件
+### 作用
+* 接收视图返回的数据，渲染数据，程序解耦
+### 语法
+* {{ 变量 }}
+* 语句：{% if 表达式 %} {% endif %}
+* loop.index从第一个遍历，loop.index0从第0个遍历
+### 继承
+* 共有的内容留下，特有的内容定义block，让子类实现
+* 灵活运用
 
-
+![](/templates/Flask框架第三天.png)

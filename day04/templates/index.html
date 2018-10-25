@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ request.url }}</title>
+</head>
+<body>
+<form action="">
+    {% for mess in get_flashed_messages() %}
+        {{ mess }}
+    {% endfor %}
+
+
+
+</form>
+
+</body>
+</html>

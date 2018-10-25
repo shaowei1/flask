@@ -15,12 +15,33 @@ hello_2018
 # 1、不能不传参数、不能传入数值,可以传入任意字符串
 # 2、如果传入标准模块名，会导致程序实例路径instance_path创建不成功，
 # 3、只会影响静态文件的访问，不会影响视图函数的访问
-app = Flask(__name__)
+app = Flask(__name__,  # __name__代表app对象所在模块名，模块目录决定了查找模板文件和静态文件的目录
+            static_folder='static',  # 静态文件保存的目录，默认值:static
+            static_url_path='/static',  # 设置访问静态文件url路径的前缀，默认值:/static
+            template_folder='templates',  # 模板文件保存的目录，默认值:templates
+            )
 
 
-@app.route('/', methods=['POST'])
+class Config(object):
+    """配置类"""
+    DEBUG = True
+
+
+# 加载项目配置信息
+app.config.from_object(Config)
+
+
+@app.route('/', methods=['GET', 'POST'])
 def hello():
     return 'hello world2018'
+
+
+from flask import redirect
+
+
+@app.route('/redirect')
+def demo5():
+    return redirect('http://www.baidu.com')
 
 
 # 手动添加路由映射，不使用装饰器；

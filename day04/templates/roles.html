@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>假设和用户</title>
+</head>
+<body>
+<ur>
+    {% for role in roles %}
+        <li>
+            角色: {{ role.name }}
+            <table border="1px">
+                <tr>
+                    <td>username</td>
+                    <td>password</td>
+                    <td>email</td>
+                </tr>
+                <tr>
+                    {% for user in role.users %}
+                        <td>{{ user.name }}</td>
+                        <td>{{ user.password }}</td>
+                        <td>{{ user.email }}</td>
+                        </tr>
+                    {% endfor %}
+            </table>
+        </li>
+    {% endfor %}
+</ur>
+</body>
+</html>

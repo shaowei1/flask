@@ -1,0 +1,32 @@
+{% import 'temp_macro.html' as f %}
+
+{# 使用导入的宏 #}
+{{ f.fun('password','20') }}
+
+
+<hr>
+{# 登录表单 #}
+
+<input type="text" name="user" placeholder="User" size="30"> <br>
+<input type="password" name="password" placeholder="Password" size="30"> <br>
+<input type="submit">
+<hr>
+{# 宏的定义和使用 #}
+{#{% macro fun() %}#}
+{#    <input type="text" name="user" placeholder="User" size="30"> <br>#}
+{#    <input type="password" name="password" placeholder="Password" size="30"> <br>#}
+{#    <input type="submit">#}
+{##}
+{#{% endmacro %}#}
+
+{# 给宏传入参数 #}
+{#{% macro fun(type,size) %}#}
+{#    <input type="{{ type }}" name="user" placeholder="User" size="{{ size }}"> <br>#}
+{#    <input type="{{ type }}" name="password" placeholder="Password" size="{{ size }}"> <br>#}
+{#    <input type="submit">#}
+{##}
+{#{% endmacro %}#}
+
+{# 调用宏 #}
+{#{{ fun('text','60') }}#}
+
