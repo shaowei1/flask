@@ -3,3 +3,4 @@
 logs/
 migrations/
 __pycache__/*
+flask_env/*
