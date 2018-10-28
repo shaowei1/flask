@@ -59,3 +59,24 @@ init　（首先找的就是init.py)导包方便，初始化操作，
     
     hash冲撞(key相同)
 
+# Flask第8天
+## 项目目录
+### 在单脚本文件中实现基本内容
+### 首先拆分配置文件
+### 其次抽取app，定义工厂函数
+### 集成项目日志
+### 拆分视图，定义蓝图、注册蓝图
+### 导入模型类，数据库迁移
+## 模型分析
+### 根据需求，分析表的创建和表之间的关系
+
+![](readmeSource/Flask第8天.png)
+
+![](readmeSource/modelsAnalysize.jpg)
+
+
+render_template寻找路径
+寻找当前路径同级的template
+到底在哪里执行
+os.path
+

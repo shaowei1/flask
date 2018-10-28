@@ -17,7 +17,9 @@ sudo python setup.py install
 ## 调⽤模块
 引⼊模块
 from redis import *
+redis.py模块封装了redis配置信息和基本操作
 
+redis.py提供了两个类用于和redis 数据库交互,StrictRedis用于实现官方的语法和命令，　Redis是StrictRedis的子类,用于向后兼容老版本
 这个模块中提供了StrictRedis对象(Strict严格)，⽤于连接redis服务器，并按照不同类型提供 了不同⽅法，进⾏交互操作
 
 ## StrictRedis对象⽅法
