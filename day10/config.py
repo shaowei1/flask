@@ -1,8 +1,8 @@
 # 导入redis模块
 from redis import StrictRedis
 
-class Config:
 
+class Config:
     # 调试信息
     DEBUG = None
     # 配置密钥
@@ -11,7 +11,6 @@ class Config:
     SQLALCHEMY_DATABASE_URI = 'mysql://demouser:demopassword@localhost/demodb'
     # 动态追踪修改
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-
 
     # 封装redis的主机和端口号
     REDIS_HOST = '127.0.0.1'
@@ -23,9 +22,11 @@ class Config:
     SESSION_USE_SIGNER = True  # SESSION信息签名
     PERMANENT_SESSION_LIFETIME = 86400  # Flask框架自带的session有效期配置
 
+
 # 定义开发模式下的配置
 class DevelopmentConfig(Config):
     DEBUG = True
+
 
 # 定义生产模式下的配置
 class ProductionConfig(Config):
@@ -34,6 +35,6 @@ class ProductionConfig(Config):
 
 # 定义字典映射不同环境下的配置类
 config_dict = {
-    'development':DevelopmentConfig,
-    'production':ProductionConfig
+    'development': DevelopmentConfig,
+    'production': ProductionConfig
 }

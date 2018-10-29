@@ -1,5 +1,5 @@
 # 导入flask内置的对象
-from flask import request, jsonify, current_app, make_response
+from flask import request, jsonify, current_app, make_response, session
 from . import passport_blue
 # 导入captcha扩展，生成图片验证码
 from info.utils.captcha.captcha import captcha
@@ -11,6 +11,7 @@ from info import redis_store, constants
 import re, random
 # 导入云通讯扩展
 from info.libs.yuntongxun import sms
+from info.models import User, db
 
 
 @passport_blue.route("/image_code")
@@ -98,6 +99,7 @@ def send_sms_code():
         return jsonify(errno=RET.DATAERR, errmsg='图片验证码不一致')
     # 生成短信验证码
     sms_code = '%06d' % random.randint(0, 999999)
+    print(sms_code)
     # 存储在redis中，key可以拼接手机号
     try:
         redis_store.setex('SMSCode_' + mobile, constants.SMS_CODE_REDIS_EXPIRES, sms_code)
@@ -119,5 +121,73 @@ def send_sms_code():
         return jsonify(errno=RET.OK, errmsg='发送成功')
     else:
         return jsonify(errno=RET.THIRDERR, errmsg='发送失败')
+
+
+@passport_blue.route('/register', methods=['POST'])
+def register():
+    """
+    用户注册
+    获取参数---检查参数---业务处理---返回结果
+    1、获取前端ajax发送的post请求的三个参数，mobile，sms_code,password
+    2、检查参数的完整性
+    3、检查手机号的格式
+    用户是否注册？
+    4、尝试从redis数据库中获取真实的短信验证码
+    5、判断获取结果是否过期
+    6、比较短信验证码是否正确，因为短信验证码可以比较多次，图片验证码只能比较一次
+    7、删除redis数据库中存储的短信验证码
+    用户是否注册？
+    8、构造模型类对象,准备保存用户信息
+    user = User()
+    user.password = password
+    9、提交数据到mysql数据库中，如果发生异常，需要进行回滚
+    10、缓存用户信息，使用session对象到redis数据库中；
+    11、返回结果
+    """
+    mobile = request.args.get('mobile')
+    sms_code = request.args.get('sms_code')
+    password = request.args.get('password')
+    if not all([mobile, sms_code, password]):
+        return jsonify(errno=RET.PARAMERR, errmsg="参数不完整")
+    if not re.match(r'^1[3456789]\d{9}$', mobile):
+        return jsonify(errno=RET.PARAMERR, errmsg="手机格式错误")
+    try:
+        real_sms_code = redis_store.get("SMSCode_" + mobile)
+    except Exception as e:
+        current_app.logger.error(e)
+        return jsonify(errno=RET.PARAMERR, errmsg="获取数据失败")
+    if not real_sms_code:
+        return jsonify(errno=RET.NODATA, errmsg="短信验证码已过期")
+    try:
+        redis_store.delete('SMSCode_' + mobile)
+    except Exception as e:
+        current_app.logger.error(e)
+    try:
+        user = User.query.filter_by(mobile=mobile).first()
+    except Exception as e:
+        current_app.logger.error(e)
+        return jsonify(errno=RET.DBERR, errmsg="查询数据失败")
+    else:
+        if user is not None:
+            return jsonify(errno=RET.DATAEXIST, errmsg="手机号已注册")
+    # if mobile not register , structure model object
+    user = User()
+    user.nick_name = mobile
+    # used models's generate_password_hash, realize password encryption
+    user.password = password
+    user.mobile = mobile
+    try:
+        db.session.add(user)
+        db.session.commit()
+    except Exception as e:
+        current_app.logger.error(e)
+        db.session.rollback()
+        return jsonify(error=RET.DBERR, errmsg="保存用户信息失败")
+    session['user_id'] = user.id
+    session['nick_name'] = mobile
+    session['mobile'] = mobile
+    return jsonify(errno=RET.OK, errmsg='OK')
+
+
 
     pass

@@ -51,3 +51,30 @@ makeresponse    route
 服务器内部异常     请求钩子
 
 注册完之后跳转
+
+# Flask第10天
+## 注册
+### 获取参数
+### 检查参数
+### 业务处理
+* 判断手机号是否注册过，修改之前发送短信的代码
+* 密码加密存储
+* 缓存用户信息session['nick_name'] = mobile
+### 返回结果
+## 登录
+### 保存用户登录时间
+### 缓存用户信息session['nick_name'] = user.nick_name
+## 检查用户登录状态
+### 在modules/news/views文件中，使用模板渲染用户数据
+### 如果用户登录，显示用户信息
+### 否则提供登录注册入口
+### user.to_dict() if user else None
+## 退出
+### 清除redis中缓存的用户信息
+## csrf保护
+### 使用flask_wtf扩展提供的CSRFProtect和csrf
+### CSRFProtect不仅会验证请求方法，post、put、patch、delete
+### 还会验证请求头中是否有X-CSRFToken或X-CSRF-Token
+### 需要修改ajax的post请求代码，手动添加headers属性
+
+![](info/static/flaskday10.png)
