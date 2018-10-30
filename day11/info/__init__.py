@@ -60,4 +60,6 @@ def create_app(config_name):
     from info.modules.passport import passport_blue
     app.register_blueprint(passport_blue)
 
+    from info.utils.common import index_filter
+    app.add_template_filter(index_filter, 'index_filter')
     return app

@@ -3,6 +3,7 @@ from flask import session, render_template, current_app, jsonify
 # 导入蓝图对象
 from . import news_blue
 
+from info import constants
 from info.utils.response_code import RET
 
 from info.models import User, Category, News
@@ -12,7 +13,6 @@ from info.models import User, Category, News
 def index():
     # session['baidu'] = 2018
 
-    categories = None
     try:
         categories = Category.query.all()
     except Exception as e:
@@ -33,9 +33,24 @@ def index():
     except Exception as e:
         current_app.logger.error(e)
 
+    # new click ranking
+    try:
+        news_list = News.query.order_by(News.clicks.desc()).limit(constants.CLICK_RANK_MAX_NEWS)
+    except Exception as e:
+        current_app.logger.error(e)
+        return jsonify(errno=RET.DBERR, errmsg='查询新闻点击排行数据失败')
+
+    if not news_list:
+        return jsonify(errno=RET.NODATA, errmsg='无新闻点击排行数据')
+
+    news_click_list = []
+    for news in news_list:
+        news_click_list.append(news.to_dict())
+
     data = {
         'user_info': user.to_dict() if user else None,
-        'category_list': category_list
+        'category_list': category_list,
+        'news_click_list': news_click_list,
     }
 
     return render_template('news/index.html', data=data)
