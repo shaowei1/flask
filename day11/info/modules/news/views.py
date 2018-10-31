@@ -157,13 +157,56 @@ def news_detail(news_id):
         is_collected = True
 
     data = {
-        'user_info': user.to_dict() if user else News,
+        'user_info': user.to_dict() if user else None,
         'news_click_list': news_click_list,
         'news_detail': news.to_dict(),
         'is_collection': is_collected,
     }
 
     return render_template('news/detail.html', data=data)
+
+
+@news_blue.route("/news_collect", methods=['POST'])
+@login_required
+def news_collection():
+    user = g.user
+    if not user:
+        return jsonify(errno=RET.SESSIONERR, errmsg='用户未登录')
+    news_id = request.json.get("news_id")
+    action = request.json.get("action")
+    print(news_id, action)
+    if not all([news_id, action]):
+        return jsonify(errno=RET.PARAMERR, errmsg='参数缺失')
+    try:
+        news_id = int(news_id)
+    except Exception as e:
+        current_app.logger.error(e)
+        return jsonify(errno=RET.PARAMERR, errmsg='params type error')
+
+    try:
+        news = News.query.get(news_id)
+    except Exception as e:
+        current_app.logger.error(e)
+        return jsonify(errno=RET.DBERR, errmsg='can\'t see news information ')
+
+    if not news:
+        return jsonify(errno=RET.NODATA, errmsg='not news data')
+
+    if action == 'collect':
+        if news not in user.collection_news:
+            user.collection_news.append(news)
+    else:
+        user.collection_news.remove(news)
+
+    try:
+        db.session.add(user)
+        db.session.commit()
+    except Exception as e:
+        current_app.logger.error(e)
+        db.session.rollback()
+        return jsonify(errno=RET.DBERR, errmsg='save data fail')
+
+    return jsonify(errno=RET.OK, errmsg='OK')
     pass
 
 
