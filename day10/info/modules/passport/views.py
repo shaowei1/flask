@@ -12,6 +12,7 @@ import re, random
 # 导入云通讯扩展
 from info.libs.yuntongxun import sms
 from info.models import User, db
+from datetime import datetime
 
 
 @passport_blue.route("/image_code")
@@ -106,6 +107,7 @@ def send_sms_code():
     except Exception as e:
         current_app.logger.error(e)
         return jsonify(errno=RET.DBERR, errmsg='保存数据失败')
+
     # 调用云通讯发送短信
     try:
         ccp = sms.CCP()
@@ -116,6 +118,7 @@ def send_sms_code():
     except Exception as e:
         current_app.logger.error(e)
         return jsonify(errno=RET.THIRDERR, errmsg='发送短信异常')
+
     # 判断result是否成功
     if result == 0:
         return jsonify(errno=RET.OK, errmsg='发送成功')
@@ -144,9 +147,10 @@ def register():
     10、缓存用户信息，使用session对象到redis数据库中；
     11、返回结果
     """
-    mobile = request.args.get('mobile')
-    sms_code = request.args.get('sms_code')
-    password = request.args.get('password')
+    print('123456')
+    mobile = request.json.get('mobile')
+    sms_code = request.json.get('sms_code')
+    password = request.json.get('password')
     if not all([mobile, sms_code, password]):
         return jsonify(errno=RET.PARAMERR, errmsg="参数不完整")
     if not re.match(r'^1[3456789]\d{9}$', mobile):
@@ -179,6 +183,7 @@ def register():
     try:
         db.session.add(user)
         db.session.commit()
+        print('add db successful')
     except Exception as e:
         current_app.logger.error(e)
         db.session.rollback()
@@ -189,5 +194,45 @@ def register():
     return jsonify(errno=RET.OK, errmsg='OK')
 
 
+@passport_blue.route('/login', methods=['POST'])
+def login():
+    mobile = request.json.get('mobile')
+    password = request.json.get('password')
+    if not all([mobile, password]):
+        return jsonify(errno=RET.DATAERR, errmsg="参数不完整")
+    if not re.match(r'^1[23456789]\d{9}$', mobile):
+        return jsonify(errno=RET.DATAERR, errmsg="手机号格式不正确")
+    try:
+        user = User.query.filter_by(mobile=mobile).first()
+    except Exception as e:
+        current_app.logger.error(e)
+        return jsonify(errno=RET.DATAERR, errmsg="查询用户数据失败")
+    if user is None or not user.check_password(password):
+        return jsonify(errno=RET.DATAERR, errmsg="用户名或密码错误")
+    user.last_login = datetime.now()
+    try:
+        db.session.add(user)
+        db.session.commit()
+    except Exception as e:
+        current_app.logger.error(e)
+        db.session.rollback()
+        return jsonify(errno=RET.DBERR, errmsg="保存数据失败")
+    session['user_id'] = user.id
+    session['nick_name'] = user.nick_name
+    session['mobile'] = user.mobile
+    return jsonify(errno=RET.OK, errmsg='OK')
+
+
+@passport_blue.route('/logout', methods=["POST"])
+def logout():
+    """
+    clear session's information
+    :return:
+    """
+    session.pop('user_id', None)
+    session.pop('nick_name', None)
+    session.pop('mobile', None)
+
+    return jsonify(errno=RET.OK, errmsg="OK")
 
     pass

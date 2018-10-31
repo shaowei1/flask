@@ -75,8 +75,5 @@ init　（首先找的就是init.py)导包方便，初始化操作，
 ![](readmeSource/modelsAnalysize.jpg)
 
 
-render_template寻找路径
-寻找当前路径同级的template
-到底在哪里执行
-os.path
+
 

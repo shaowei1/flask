@@ -78,3 +78,27 @@ makeresponse    route
 ### 需要修改ajax的post请求代码，手动添加headers属性
 
 ![](info/static/flaskday10.png)
+
+user.password   有问题入库不了
+注册之后数据库中找不到
+session是存在一个数据库里面吗
+那么多人注册都存在一个数据库里面
+一个新的会话对象
+
+render_template寻找路径
+寻找当前路径同级的template
+到底在哪里执行
+os.path
+
+先建立数据库
+
+多线程
+
+repr    to_dict 
+
+
+
+服务器重启登录状态会消失吗
+断点要了干啥
+
+

@@ -8,7 +8,7 @@ class Config:
     # 配置密钥
     SECRET_KEY = 'rMlmlHmW7p78UfuuiS6HJ3sGf9dS36lnCdUY6LIAyVt/TNnjL7bpWIctW'
     # 配置mysql的连接
-    SQLALCHEMY_DATABASE_URI = 'mysql://demouser:demopassword@localhost/demodb'
+    SQLALCHEMY_DATABASE_URI = 'mysql://demouser:demopassword@localhost/info'
     # 动态追踪修改
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 

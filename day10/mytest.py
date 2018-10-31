@@ -7,22 +7,41 @@
 #     else:
 #         return yang
 #     print(a)
+
+
+# class user():
+#
+#     def __getitem__(self, key):
+#         return getattr(self, key, None)
+#
+#     def updata(self):
+#         self.index = 1
+#         self.max = 10
+#
+#         self.suffix = '%(index)d:%(max)d'
+#
+#         self.suffix = self.suffix % self
+#         print(self.suffix)
+#
+#
+# a = user()
+# a.updata()
+
 class user():
     def __init__(self):
-        self.__password = None
-
-    def double(self, value):
-        return value * 2
+        self._password = 1
 
     @property
     def password(self):
-        return self.__password
+        return self._password
+
+        # user.password = password
 
     @password.setter
     def password(self, value):
-        self.password_hash = self.double(value)
+        self._password = value + self._password
 
 
-u = user()
-u.password = 2
-print(u.password)
+a = user()
+a.password = 2
+print(a.password)

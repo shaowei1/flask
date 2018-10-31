@@ -1,14 +1,27 @@
 # 导入flask内置的对象
-from flask import session,render_template,current_app
+from flask import session, render_template, current_app
 # 导入蓝图对象
 from . import news_blue
+
+from info.models import User
 
 
 @news_blue.route("/")
 def index():
-    # 实现状态保持
-    # session['itcast'] = '2018'
-    return render_template('news/index.html')
+    # session['baidu'] = 2018
+    user_id = session.get('user_id')
+    user = None
+    try:
+        user = User.query.filter_by(id=user_id).first()
+    except Exception as e:
+        current_app.logger.error(e)
+
+    data = {
+        'user_info': user.to_dict() if user else None
+    }
+
+    return render_template('news/index.html', data=data)
+
 
 # 项目logo图标加载，浏览器会默认请求。
 # 如果图标加载不出来？？

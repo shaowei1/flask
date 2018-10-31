@@ -1,18 +1,21 @@
 # 导入flask内置的对象
-from flask import session, render_template, current_app, jsonify, request
+from flask import session, render_template, current_app, jsonify, request, g
 # 导入蓝图对象
 from . import news_blue
 
 from info import constants
 from info.utils.response_code import RET
+from info.utils.common import login_required
 
 from info.models import User, Category, News, db
 
 
 @news_blue.route("/")
+@login_required
 def index():
     # session['baidu'] = 2018
 
+    user = g.user
     try:
         categories = Category.query.all()
     except Exception as e:
@@ -25,13 +28,6 @@ def index():
     category_list = []
     for category in categories:
         category_list.append(category.to_dict())
-
-    user_id = session.get('user_id')
-    user = None
-    try:
-        user = User.query.filter_by(id=user_id).first()
-    except Exception as e:
-        current_app.logger.error(e)
 
     # new click ranking
     try:
@@ -115,6 +111,7 @@ def get_news_list():
 
 
 @news_blue.route('/<int:news_id>')
+@login_required
 def news_detail(news_id):
     """
     news_detail data display
@@ -128,9 +125,12 @@ def news_detail(news_id):
     except Exception as e:
         current_app.logger.error(e)
         return jsonify(errno=RET.DBERR, errmsg='查询新闻点击排行数据失败')
+
     if not news_list:
         return jsonify(errno=RET.NODATA, errmsg='无新闻点击排行数据')
+
     news_click_list = []
+
     for news in news_list:
         news_click_list.append(news)
 
@@ -139,6 +139,7 @@ def news_detail(news_id):
     except Exception as e:
         current_app.logger.error(e)
         return jsonify(errno=RET.DBERR, errmsg='查询新闻详情数据失败')
+
     if not news:
         return jsonify(errno=RET.NODATA, errmsg='无新闻详情数据')
     news.clicks += 1

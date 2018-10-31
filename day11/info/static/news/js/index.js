@@ -9,19 +9,19 @@ $(function () {
     updateNewsData()
     // 首页分类切换
     $('.menu li').click(function () {
-        var clickCid = $(this).attr('data-cid')
+        var clickCid = $(this).attr('data-cid');
         $('.menu li').each(function () {
             $(this).removeClass('active')
-        })
-        $(this).addClass('active')
+        });
+        $(this).addClass('active');
 
         if (clickCid != currentCid) {
             // 记录当前分类id
-            currentCid = clickCid
+            currentCid = clickCid;
 
             // 重置分页参数
-            cur_page = 1
-            total_page = 1
+            cur_page = 1;
+            total_page = 1;
             updateNewsData()
         }
     })

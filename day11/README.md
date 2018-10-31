@@ -46,8 +46,41 @@ safe
 
 ## 多重装饰器
 调用顺序
+```python
+def setFunc1(func):
+    def wrapper():
+        print("wrapper context 1 start")
+        func()
+        print("wrapper context 1 end")
 
-阳春白雪	
+    return wrapper
+
+
+def setFunc2(func):
+    def wrapper():
+        print("wrapper context 2 start")
+        func()
+        print("wrapper context 2 end")
+
+    return wrapper
+
+
+@setFunc1
+@setFunc2
+def show(*args, **kwargs):
+    print("show is run ...")
+
+'''
+show()
+>>>wrapper context 1 start
+wrapper context 2 start
+show is run ...
+wrapper context 2 end
+wrapper context 1 end
+'''
+
+
+```
 
 ##  
 除了删掉还可以覆盖
@@ -71,3 +104,5 @@ star follow collection
 
 # important
 使用"的时候要注意作用范围href=""
+
+

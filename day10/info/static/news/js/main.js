@@ -95,7 +95,7 @@ $(function () {
         $(this).find('a')[0].click()
     })
 
-    // TODO 登录表单提交
+    //  登录表单提交
     $(".login_form_con").submit(function (e) {
         e.preventDefault()
         var mobile = $(".login_form #mobile").val()
@@ -112,7 +112,33 @@ $(function () {
         }
 
         // 发起登录请求
-    })
+        var params = {
+            mobile: mobile,
+            password: password,
+        };
+
+        $.ajax({
+            url: '/login',
+            type: 'post',
+            data: JSON.stringify(params),
+            contentType: 'application/json',
+            headers: {
+                'X-CSRFToken': getCookie('csrf_token'),
+            },
+            success: function (resp) {
+                if (resp.errno = '0') {
+                    location.reload();
+                } else {
+                    $("#login-password-err").html(data.errmsg);
+                    $("#login-password-err").show();
+
+                }
+
+            }
+
+
+        })
+    });
 
 
     // 注册按钮点击
@@ -124,7 +150,7 @@ $(function () {
         var mobile = $("#register_mobile").val()
         var smscode = $("#smscode").val()
         var password = $("#register_password").val()
-
+        console.log(mobile, smscode, password)
         if (!mobile) {
             $("#register-mobile-err").show();
             return;
@@ -150,7 +176,7 @@ $(function () {
             'mobile': mobile,
             'sms_code': smscode,
             'password': password,
-        }
+        };
 
         $.ajax({
             url: '/register',
@@ -162,6 +188,8 @@ $(function () {
             },
             success: function (resp) {
                 if (resp.errno = '0') {
+                    console.log(mobile, smscode, password)
+
                     // flush current page
                     location.reload();
                 } else {
@@ -237,8 +265,8 @@ function sendSMSCode() {
                 }, 1000)
             } else {
                 alert(resp.errmsg);
-                // $('#register-sms-code-err').html(resp.errmsg);
-                // $('#register-sms-code-err').show();
+                $('#register-sms-code-err').html(resp.errmsg);
+                $('#register-sms-code-err').show();
 
             }
         }
@@ -281,4 +309,26 @@ function generateUUID() {
         return (c == 'x' ? r : (r & 0x3 | 0x8)).toString(16);
     });
     return uuid;
+}
+
+// exit login
+function logout() {
+    $.ajax({
+        url: "/logout",
+        type: 'post',
+        contentType: "application/json",
+        headers: {
+            "X-CSRFToken": getCookie("csrf_token")
+
+        },
+        success: function (resp) {
+            location.reload();
+
+        }
+    })
+    // $.get('/logout', function (resp) {
+    //     location.reload()
+    //
+    // });
+
 }
