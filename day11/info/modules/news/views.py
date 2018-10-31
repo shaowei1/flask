@@ -1,5 +1,5 @@
 # 导入flask内置的对象
-from flask import session, render_template, current_app, jsonify
+from flask import session, render_template, current_app, jsonify, request
 # 导入蓝图对象
 from . import news_blue
 
@@ -54,6 +54,65 @@ def index():
     }
 
     return render_template('news/index.html', data=data)
+
+
+@news_blue.route('/news_list')
+def get_news_list():
+    """
+    新闻列表数据
+    1、获取参数，cid('1')/page('1')/per_page('10')
+    request.args.get()
+    2、检查参数，转换数据类型
+    3、根据分类id查询新闻列表,按照新闻发布时间排序，分页
+    4、如果新闻有分类，根据分类查询
+    if cid > 1:
+        paginate = News.query.filter(News.category_id==cid).order_by(News.create_time.desc()).paginate(page,per_page,False)
+    else:
+        paginate = News.query.filter().order_by(News.create_time.desc()).paginate(page,per_page,False)
+    5、如果新闻是最新，默认查询所有
+    paginate = News.query.filter().order_by(News.create_time.desc()).paginate(page,per_page,False)
+    6、获取分页后的新闻列表、总页数、当前页数
+    7、定义容器，遍历查询结果
+    8、返回数据
+    :return:
+    """
+    cid = request.args.get("cid", '1')
+    page = request.args.get('page', '1')
+    per_page = request.args.get('per_page', '10')
+
+    try:
+        cid, page, per_page = int(cid), int(page), int(per_page)
+    except Exception as e:
+        current_app.logger.error(e)
+        return jsonify(errno=RET.PARAMERR, errmsg='参数类型错误')
+
+    filters = []
+
+    if cid > 1:
+        filters.append(News.category_id == cid)
+    try:
+        paginate = News.query.filter(*filters).order_by(News.create_time.desc()).paginate(page, per_page, False)
+    except Exception as e:
+        current_app.logger.error(e)
+        return jsonify(errno=RET.DBERR, errmsg='查询新闻列表数据失败')
+
+    news_list = paginate.items
+    current_page = paginate.page
+    total_page = paginate.pages
+
+    news_dict_list = []
+
+    for news in news_list:
+        news_dict_list.append(news.to_dict())
+
+    data = {
+        'news_dict_list': news_dict_list,
+        'total_page': total_page,
+        'current_page': current_page,
+    }
+    # print(data)
+    return jsonify(errno=RET.OK, errmsg='OK', data=data)
+    pass
 
 
 # 项目logo图标加载，浏览器会默认请求。
